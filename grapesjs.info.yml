@@ -1,0 +1,5 @@
+name: GrapesJS Editor
+type: module
+description: Allows editor to be switched to a GrapesJS editor for fast page creation. Great for sales pages and use by clients.
+package: Other
+core: 8.x

@@ -1,0 +1,26 @@
+grapesjs:
+  version: VERSION
+  css:
+    theme:
+      libs/grapesjs/dist/css/grapes.min.css: { minified: true }
+  js:
+    libs/grapesjs/dist/grapes.min.js: { minified: true }
+    
+grapesjs-init:
+  version: VERSION
+  css:
+    theme:
+      css/grapesjs.css: {}
+  js:
+    js/plugin.js: {}
+    js/init.js: {}
+  dependencies:
+    - core/jquery
+    - grapesjs/grapesjs
+    
+grapesjs-test:
+  version: VERSION
+  js:
+    js/test.js: {}
+  dependencies:
+    - core/jquery

@@ -1,0 +1,1 @@
+Place the grapesjs library in here and name the folder grapesjs.

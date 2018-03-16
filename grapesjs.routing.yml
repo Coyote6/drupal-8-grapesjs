@@ -1,0 +1,21 @@
+grapesjs.upload_form:
+  path: '/editor/grapesjs/upload'
+  defaults:
+    _form: '\Drupal\grapesjs\Form\GrapesJsUploadForm'
+  requirements:
+    _access: 'TRUE'
+ 
+
+grapesjs.ajax_get_form:
+  path: '/editor/grapesjs/get-upload-form'
+  defaults:
+    _controller: '\Drupal\grapesjs\Controller\AjaxController::getUploadForm'
+  requirements:
+    _access: 'TRUE'
+    
+grapesjs.ajax_get_files:
+  path: '/editor/grapesjs/get-files'
+  defaults:
+    _controller: '\Drupal\grapesjs\Controller\AjaxController::getFiles'
+  requirements:
+    _access: 'TRUE'
