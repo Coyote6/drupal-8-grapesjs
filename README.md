@@ -1,7 +1,7 @@
-#WARNING!
+# WARNING!
 This is just a sandbox at the moment.  Security checks are not in place and things are probably not done the proper way.  Use at your own risk!
 
-#To Install & Configure:
+# To Install & Configure:
 1. Place module in modules folder.
 2. Download grapesjs (https://github.com/artf/grapesjs) and place it in the libs/ and name the folder grapesjs.
 3. Install module from the extend menu.
@@ -9,18 +9,18 @@ This is just a sandbox at the moment.  Security checks are not in place and thin
 5. Add or Configure One
 6. Select "GrapeJS" from the Text editor dropdown.
 
-#To use:
+# To use:
 1. Go to an entity with text field and select the format you set GrapesJS to as the Text Editor.
 2. Click the "Open Editor" Button and enjoy!
 
-#Quirks/Bugs
+# Quirks/Bugs
 1. If you are editing an element and exit before clicking off of the element, the update:component event doesn't fire and the new changes are not sent to the text area to be saved.
 2. File uploads are very hackie (but functioning) and are not done the proper way I am sure.
 3. File usage is not being set.
 4. Theme and other settings are hard coded at the moment. 
 5. And many more to come... lol
 
-#Roadmap
+# Roadmap
 1. Add in file usage call.
 2. Change the field class for styles to being dynamically set by the element.
 3. Add in call to switch to an image style.
