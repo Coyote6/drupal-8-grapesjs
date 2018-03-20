@@ -88,10 +88,9 @@
     
           });
           editor.on('component:update', (component) => {
-            if (component.attributes.type == 'image' && typeof (assets[component.attributes.src]) != 'undefined') {
+            if (component.is('image') && typeof (assets[component.attributes.src]) != 'undefined') {
               var thisAsset = assets[component.attributes.src];
-              var iframe = $('#gjs iframe');
-              $('.' + component.cid,iframe.contents()).attr('data-entity-uuid', thisAsset.uuid).attr('data-entity-type', thisAsset.entity);
+              component.addAttributes({'data-entity-uuid': thisAsset.uuid, 'data-entity-type': thisAsset.entity});
             }
             // Save on every update.
             editor.store();
