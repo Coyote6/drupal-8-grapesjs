@@ -1,4 +1,4 @@
-(function (Drupal, $, CKEDITOR) {
+(function (Drupal, $) {
 
   var uploadFormVals = {};
   var assets = {};
@@ -267,4 +267,4 @@ editor.setCustomRte({
  
   };
   Drupal.editors.grapesjs = gjseditor;
-})(Drupal, jQuery, CKEDITOR);
+})(Drupal, jQuery); // CKEDITOR
