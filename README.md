@@ -3,7 +3,7 @@ This is just a sandbox at the moment.  Security checks are not in place and thin
 
 ## To Install & Configure:
 1. Place module in modules folder.
-2. Download grapesjs (https://github.com/artf/grapesjs) and place it in the libs/ and name the folder grapesjs.
+2. Download grapesjs (https://github.com/artf/grapesjs/tree/master) and place it in the libs/ and name the folder grapesjs.
 3. Install module from the extend menu.
 4. Go to Config -> Text Formats and Editors
 5. Add or Configure One

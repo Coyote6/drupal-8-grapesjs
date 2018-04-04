@@ -54,7 +54,6 @@ grapesjs.plugins.add('drupal-default', (editor, options) => {
 			css = css.replace('* { box-sizing: border-box; }', '.field--name-body * { box-sizing: border-box; }');
 			css = css.replace('body {margin: 0;}', '');
 			var val = editor.getHtml() + '<style>' + css + '</style>';
-			console.log( editor.getHtml());
 			$(options.element).val(val).attr('data-editor-value-is-changed', 'true');
 			if (typeof (clb) == 'function') {
 				clb();
@@ -282,22 +281,105 @@ cmds.add ('addWidth', {
 	//
 	// Components
 	//
+	
+	// Get the defaults to extend
+	var defaultType = comps.getType('default');
+	var defaultModel = defaultType.model;
 	var textType = comps.getType('text');
 	var textModel = textType.model;
+
+  // Div
+	comps.addType('div', {
+  	model: defaultModel.extend(
+  	  {
+  			defaults: Object.assign({}, defaultModel.prototype.defaults, {
+  				tagName: 'div',
+  				name: 'Division',
+          editable: 1,
+          droppable: 1,
+				  draggable: 1,
+  				classes: ['div'],
+  				propagate: ['removable', 'draggable', 'droppable']
+  			}),
+  		}, {
+  			isComponent: function(el) {
+  				if(el.tagName == 'div' && el.classList.contains('div')){
+  					return {type: 'div'};
+  				}
+  				return '';
+  			},
+  		}
+    ),
+		// Define the View
+		view: defaultType.view
+	});
+	
+  // Span
+	comps.addType('span', {
+  	model: defaultModel.extend(
+  	  {
+  			defaults: Object.assign({}, defaultModel.prototype.defaults, {
+  				tagName: 'span',
+  				name: 'Paragraph',
+          editable: 1
+  			}),
+  		}, {
+  			isComponent: function(el) {
+  				if(el.tagName == 'span'){
+  					return {type: 'span'};
+  				}
+  				return '';
+  			},
+  		}
+    ),
+		// Define the View
+		view: defaultType.view
+	});
+	
+	// Paragraph
+	comps.addType('paragraph', {
+  	model: defaultModel.extend(
+  	  {
+  			defaults: Object.assign({}, defaultModel.prototype.defaults, {
+  				tagName: 'p',
+  				name: 'Paragraph',
+          editable: 1,
+				  droppable: phrasingEls,
+				  draggable: 1,//['body','div','blockquote','dt','dd','figcaption','li','article','main','aside','header','footer','section'],
+  				classes: ['paragraph-txt'],
+  				propagate: ['removable', 'draggable', 'droppable']
+  			}),
+  		}, {
+  			isComponent: function(el) {
+  				if(el.tagName == 'p'){
+  					return {type: 'paragraph'};
+  				}
+  				return '';
+  			},
+  		}
+    ),
+		// Define the View
+		view: defaultType.view
+	});
+	
+  // Text Block
 	comps.addType('textBlock', {
 		model: textModel.extend({
 			defaults: Object.assign({}, textModel.prototype.defaults, {
 				tagName: 'div',
 				name: 'Text Block',
-				droppable: true,
+				editable: 1,
+			  droppable: 1,
+			  draggable: 1,
 				classes: ['txt-block'],
-				propagate: ['removable', 'draggable', 'droppable']
-			}),
+  		  propagate: ['removable', 'draggable', 'droppable']
+			})
 		}, {
 			isComponent: function(el) {
-				if(el.tagName == 'div' && el.classList.contains('paragraph-txt')){
-					return {type: 'paragraphText'};
+				if(el.tagName == 'div' && el.classList.contains('txt-block')){
+					return {type: 'textBlock'};
 				}
+				return '';
 			},
 		}),
 		// Define the View
@@ -314,6 +396,20 @@ cmds.add ('addWidth', {
 // Todo
 //	Make a row and a column block and then just add columns as you need them.
 //	
+
+	bm.add('div', {
+		label: 'Division',
+		category: 'Layout',
+		attributes: {
+			class:'gjs-fonts gjs-f-b1'
+		},
+		content: {
+			type:'div',
+    }
+	});
+
+	
+/*
 	bm.add('single-column', {
 		label: 'Single Column Row',
 		category: 'Layout',
@@ -349,7 +445,23 @@ cmds.add ('addWidth', {
 					'<div class="cell" data-gjs-name="Cell" data-gjs-resizable="tl=0;tc=0;tr=0;cl=0;bl=0;br=0;1;cr=0;bc=0;1;1;0.2;">Col 3</div>' +
 				 '</div>'
 	});
-	
+	*/		
+	// Paragraph
+	bm.add('paragraph', {
+		label: 'Paragraph',
+		category: 'Text',
+		attributes: {
+			class:'gjs-fonts gjs-f-text'
+		},
+		content: {
+			type:'paragraph',
+			components: '<span>Insert your text here<span>',
+	//		content: '<p class="paragraph-txt" data-gjs-name="Paragraph" data-gjs-selectable="1" data-gjs-removable="1" data-gjs-toolbar="1" data-gjs-draggable=".paragraph-txt" data-gjs-droppable="' + phrasingElsStr + '">Insert your text here</p>',
+			activeOnRender: 1,
+			editable: 1
+		},
+	});
+
 	// Text
 	bm.add('text', {
 		label: 'Text Block',
@@ -358,15 +470,13 @@ cmds.add ('addWidth', {
 			class:'gjs-fonts gjs-f-text'
 		},
 		content: {
-			type:'textBlock',
-			content: '<p class="paragraph-txt" data-gjs-name="Paragraph" data-gjs-selectable="1" data-gjs-removable="1" data-gjs-toolbar="1" data-gjs-draggable=".paragraph-txt" data-gjs-droppable="' + phrasingElsStr + '">Insert your text here</p>',
-			style: {
-				margin: '10px 0'
-			},
-			activeOnRender: 1
+			type:'text',
+ //     components: '<p class="paragraph-txt" contenteditable="true" data-gjs-name="Paragraph" data-gjs-selectable="1" data-gjs-removable="1" data-gjs-toolbar="1" data-gjs-draggable=".paragraph-txt" data-gjs-droppable="' + phrasingElsStr + '">Insert your text here...</p>',
+      components: '<p class="paragraph-txt" data-gjs-name="Paragraph" data-gjs-removable="1" data-gjs-draggable="1" data-gjs-droppable="1">Insert your text here...</p>'
 		},
 	});
 	
+	/*
 	bm.add('link', {
 		label: 'Link',
 		category: 'Text',
@@ -377,6 +487,7 @@ cmds.add ('addWidth', {
 			type:'link',
 		},
 	});
+*/
 	
 	//
 	// Media

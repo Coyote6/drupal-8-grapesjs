@@ -70,7 +70,7 @@
           editor = grapesjs.init({
             container : '#gjs',
             height: '100%',
-            components: defaultVal,
+            components: defaultVal + '<style>div.div{padding:5px;min-height: 25px;}</style>',
             storageManager: {
               type: 'textarea',
             },
@@ -88,7 +88,11 @@
     
           });
           editor.on('component:update', (component) => {
-            if (component.is('image') && typeof (assets[component.attributes.src]) != 'undefined') {
+            if (
+              typeof(component.is) == 'function' &&
+              component.is('image') && 
+              typeof (assets[component.attributes.src]) != 'undefined'
+            ) {
               var thisAsset = assets[component.attributes.src];
               component.addAttributes({'data-entity-uuid': thisAsset.uuid, 'data-entity-type': thisAsset.entity});
             }
@@ -238,6 +242,7 @@ editor.setCustomRte({
         });
 
       }
+      // Fallback this should not happen.
       else {
         $('body > *:not("#gjs")').removeClass('not-gjs');
         $('#gjs').hide();
@@ -246,8 +251,9 @@ editor.setCustomRte({
     },
     detach : function detach(element, format, trigger){      
       $('body > *:not("#gjs")').removeClass('not-gjs');
-      $('#gjs').hide();
-      $('.gjs-button-container').hide();
+      // Remove so new elements can be added via the other editors.
+      $('#gjs').remove();
+      $('.gjs-button-container').remove();
     },
     onChange: function onChange(element, callback) {
     //  console.log($(element).val());
