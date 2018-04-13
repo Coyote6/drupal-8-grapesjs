@@ -44,9 +44,7 @@ class GrapesJSEditor extends EditorBase {
       $nid = $node->id();
       $url = \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$nid);
     }
-    
-    kint ($editor);
-            
+                
     $settings = [
       'url' => $url,
 #
