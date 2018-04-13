@@ -1,2 +1,112 @@
 <?php
 
+function grapesjs_preprocess_field (&$vars, $hook) {
+  if (isset ($vars['field_type']) && ($vars['field_type'] == 'text_with_summary' || $vars['field_type'] == 'text')) {
+//    print_r (array_keys ($vars));
+/*  
+   $out = $vars;
+   $remove = ['attributes', 'field_type','theme_hook_original','title_attributes','title_prefix','title_suffix','db_is_active','is_admin', 'logged_in', 'user', 'directory', 'field_name', 'label_display', 'label_hidden', 'label', 'multiple', '#cache','content_attributes'];
+    foreach ($remove as $r) {
+      unset ($out[$r]);
+    }
+    
+  
+    $out = array_keys($out);
+   
+    print_r ($out);
+//    print_r ($vars['element']);
+    print_r ($vars['items']);*/
+
+# ToDo
+#
+# Add a permission to grant users access to place blocks
+# Remove any block placement on save of content if user does not have permission...
+#
+//    print_r ($vars['attributes']);
+    $vars['attributes']['class'][] = 'grapesjs-editable-field';
+    
+    $attach_lib = false;
+
+    if (!$vars['multiple']) {
+      $vars['attributes']['class'][] = 'grapesjs-editable-field-item';
+      $vars['attributes']['data-grapesjs-field'] = $vars['field_name'];
+      $vars['attributes']['data-grapesjs-delta'] = 0;
+    }
+    
+    foreach ($vars['items'] as $delta => &$item) {
+      if (isset ($item['content']['#type']) && isset ($item['content']['#type']) && $item['content']['#type'] == 'processed_text') {
+        
+        $item['attributes']->setAttribute('class', 'grapesjs-editable-field-item');
+        $item['attributes']->setAttribute('data-grapesjs-field', $vars['field_name']);
+        $item['attributes']->setAttribute('data-grapesjs-delta', $delta);
+        
+        $attach_lib = true;
+        $item['content']['#text'] = preg_replace_callback ('|\[block\](.*?)\[\/block\]|ism', function ($matches) {
+
+          if (!isset ($matches[1])) {
+            return $matches[0];
+          }
+
+          $bid = trim($matches[1]);
+
+          if (preg_match ('|^[0-9]+|i', $bid)) {            
+            return renderContentBlock ($bid);
+          }
+          else if (preg_match ('|^[a-z0-9:\-\_]+$|i', $bid)) {
+            return renderPluginBlock ($bid);
+          }
+          else {
+          /*  $json = json_decode($bid);
+            if ($json) {
+              return renderPluginBlock ($json->id, $json);            
+            }*/
+            return renderPluginBlock ('broken');
+          }
+          
+        }, $item['content']['#text']);
+      }
+    }
+    
+    if ($attach_lib) {
+      $vars['#attached']['library'][] = 'grapesjs/grapesjs-resize';
+    }
+  }
+}
+
+
+function renderContentBlock ($id) {
+  $block = \Drupal\block_content\Entity\BlockContent::load($id);
+  $el = \Drupal::entityTypeManager()->getViewBuilder('block_content')->view($block);                  
+  return \Drupal::service('renderer')->render($el);
+}
+
+function renderPluginBlock ($id, $json_config = null) {
+  
+  $block_manager = \Drupal::service('plugin.manager.block');
+
+  // You can hard code configuration or you load from settings.
+  $config = [];
+  if (is_object ($json_config)) {
+    $config = (array) $json_config->config_dependencies->content;
+    print_r ($json_config->config_dependencies->content);
+  }
+  $plugin_block = $block_manager->createInstance ($id, $config);
+
+  // Some blocks might implement access check.
+  $access_result = $plugin_block->access(\Drupal::currentUser());
+
+  // Return empty render array if user doesn't have access.
+  // $access_result can be boolean or an AccessResult class
+  if (is_object($access_result) && $access_result->isForbidden() || is_bool($access_result) && !$access_result) {
+    // You might need to add some cache tags/contexts.
+    return '';
+  }
+
+  $el = $plugin_block->build();
+// In some cases, you need to add the cache tags/context depending on
+// the block implemention. As it's possible to add the cache tags and
+// contexts in the render method and in ::getCacheTags and 
+// ::getCacheContexts methods.
+  return \Drupal::service('renderer')->render($el);
+
+}

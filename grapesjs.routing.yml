@@ -19,3 +19,17 @@ grapesjs.ajax_get_files:
     _controller: '\Drupal\grapesjs\Controller\AjaxController::getFiles'
   requirements:
     _access: 'TRUE'
+    
+grapesjs.ajax_get_blocks:
+  path: '/editor/grapesjs/get-blocks'
+  defaults:
+    _controller: '\Drupal\grapesjs\Controller\AjaxController::getBlocks'
+  requirements:
+    _access: 'TRUE'
+    
+grapesjs.ajax_render_block:
+  path: '/editor/grapesjs/render-block'
+  defaults:
+    _controller: '\Drupal\grapesjs\Controller\AjaxController::renderBlock'
+  requirements:
+    _access: 'TRUE'

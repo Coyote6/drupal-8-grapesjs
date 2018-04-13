@@ -12,12 +12,23 @@ grapesjs-init:
     theme:
       css/grapesjs.css: {}
   js:
+    js/drupal-storage-textfield.js: {}
+    js/grapesjs-blocks-flexbox.min.js: { minified: true }
+    js/grapesjs-drupal-block.js: {}
+    js/grapesjs-html-block.js: {}
     js/plugin.js: {}
     js/init.js: {}
   dependencies:
     - core/jquery
     - grapesjs/grapesjs
     
+grapesjs-resize:
+  version: VERSION
+  js:
+    js/responsive-resizing.js: {}
+  dependencies:
+    - core/jquery
+
 grapesjs-test:
   version: VERSION
   js:

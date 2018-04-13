@@ -25,6 +25,7 @@
   box-shadow: 0 0 3px rgba(0,0,0,0.25) inset;
   box-sizing: border-box;
   cursor: pointer;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: 18px;
   height: 30px;
   line-height: 21px;
@@ -34,16 +35,32 @@
   width: 30px;
 }
 .grapesjs-button--close::before {
-  content: "✖";
+  content: "";
 }
 .grapesjs-button--save-close::before {
-  content: 'S';
+  content: '';
 }
 .grapesjs-button--cancel-close::before {
-  content: 'C';
+  content: '';
 }
 .grapesjs-button--cancel::before {
-  content: 'U';
+  content: '';
+}
+.grapesjs-button--redo::before {
+  content: '';
+}
+.grapesjs-button--redo-all::before {
+  content: '';
+}
+.grapesjs-button--undo {
+  -moz-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.grapesjs-button--undo::before {
+  content: '';
 }
 .grapesjs-button--save-close:hover,
 .grapesjs-button--cancel-close:hover,
