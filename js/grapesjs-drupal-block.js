@@ -143,7 +143,7 @@ grapesjs.plugins.add('drupal-block', function(editor, options) {
                   component.components(data.html);
                   component.addAttributes({'data-drupal-block': select.value});
                   editor.Modal.close();       
-              }
+                }
               }
             });
           }
@@ -174,7 +174,7 @@ grapesjs.plugins.add('drupal-block', function(editor, options) {
     
     var defaultType = editor.DomComponents.getType('default');
     var _initToolbar = defaultType.model.prototype.initToolbar;
-//console.log(defaultType.model.prototype.defaults);
+
     editor.DomComponents.addType('drupalBlock', {
       model: defaultType.model.extend({
         defaults: Object.assign({}, defaultType.model.prototype.defaults, {
@@ -183,7 +183,7 @@ grapesjs.plugins.add('drupal-block', function(editor, options) {
           propogate: ['editable', 'droppable']
   			}),
         toHTML: function() {
-          var id = 'broken';
+          var id = '';
           if (
             typeof (this.attributes) == 'object' && 
             typeof (this.attributes.attributes) == 'object' && 
@@ -274,7 +274,7 @@ grapesjs.plugins.add('drupal-block', function(editor, options) {
       attributes: {class: "fa gjs-f-hero"},
       label: "Drupal Block",
       category: 'Advanced',
-      content: '<div data-drupal-block>Double Click to Edit</div>'
+      content: '<div data-drupal-block>[block]Double Click to Edit[/block]</div>'
     });
   };
 

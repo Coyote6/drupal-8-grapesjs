@@ -130,7 +130,7 @@ class AjaxController extends ControllerBase {
             if ($json) {
               return renderPluginBlock ($json->id, $json);            
             }*/
-      $html = renderPluginBlock ('broken');
+      $html = 'Double Click to Configure Block';
     }
     
     $json = [
