@@ -45,7 +45,7 @@
 			var ml = $(this).css('margin-left');
 			var mr = $(this).css('margin-right');
 			
-			if (typeof (src) == 'undefined') {
+			if (typeof (src) != 'string' || src == '') {
 				return;
 			}
 			if (typeof (w) == 'undefined') {
@@ -154,7 +154,7 @@
 			$('.grapesjs-editable-field img:not(.ignore-resize)').each (function () {
 				
 				var src = $(this).attr('src');
-				if (typeof (src) == 'undefined' || typeof (imgs[src]) == 'undefined') {
+				if (typeof (src) != 'string' || src == '' || typeof (imgs[src]) == 'undefined') {
 					return;
 				}
 				var h = imgs[src].h;
