@@ -1,6 +1,8 @@
 # WARNING!
 This is just a sandbox at the moment.  Security checks are not in place and things are probably not done the proper way.  Use at your own risk!
 
+[Drupal 7 version can be found here](https://github.com/Coyote6/drupal-7-grapesjs)... it is more up-to-date than this one at this time.  The JavaScripts and plugins on the Drupal 7 version are a bit more complete.
+
 ## To Install & Configure:
 1. Place module in modules folder.
 2. Download grapesjs (https://github.com/artf/grapesjs/tree/master) and place it in the libs/ and name the folder grapesjs.
